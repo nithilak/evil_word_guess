@@ -11,7 +11,10 @@ void ChooseRandomWord();
 void GetAllowedWords(); //all numbers from 0 to 178690
 void PrintMap(const std::map<int, std::string>& dictionary_map);
 
+int getIntegerInput(const std::string& prompt);
 
+//returns true if a letter is found from the chosen word
+bool MakeAGuess(const char& letter);
 
 //cuts down the allowed words and if forced to, reveals a letter
 bool MakeAnEvilGuess(const char& letter);

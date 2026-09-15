@@ -7,6 +7,7 @@
 #include <set>
 #include <string>
 #include <random>
+#include <sstream>
 
 void DictionaryToMap(const std::string& name) {
     std::ifstream file(name);
@@ -59,6 +60,41 @@ void GetAllowedWords() {
 
 bool contains(const std::string& word, const char& letter) {
     return word.find(letter) != std::string::npos;
+}
+
+int getIntegerInput(const std::string& prompt) {
+    std::string input;
+    int number;
+
+    while (true) {
+        std::cout << prompt << std::endl;
+        std::getline(std::cin, input); // Read the full line of input
+
+        std::istringstream iss(input);
+        char extra;
+
+        // 1. Try to stream into the integer
+        // 2. Try to stream any leftover non-whitespace characters into 'extra'
+        if ((iss >> number) && !(iss >> extra)) {
+            if (number == 0 || number == 1) {
+                return number; // Success! Only an integer was found.
+            }
+        }
+
+        std::cout << "Invalid input. Please enter 0 or 1.\n";
+    }
+}
+
+bool MakeAGuess(const char& letter) {
+    bool found_letter = false;
+    for (int i = 0; i < answer_size; i++) {
+        if (answer[i] == letter) {
+            reveal_answer[i] = letter;
+            found_letter = true;
+            letters_revealed++;
+        }
+    }
+    return found_letter;
 }
 
 //cuts down the allowed words and if forced to, reveals a letter
