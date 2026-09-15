@@ -34,11 +34,11 @@ int main() {
       misses += !MakeAnEvilGuess(guess);
       int words_left = allowed_words.size();
       std::cout << "Have " << allowed_words.size() << " allowed words." << std::endl;
-      if (words_left < 40) {
-        for (int index : allowed_words) {
-          std::cout << kDictionaryMap[index] << std::endl;
-        }
-      }
+      // if (words_left < 40) {
+      //   for (int index : allowed_words) {
+      //     std::cout << kDictionaryMap[index] << std::endl;
+      //   }
+      // }
     } else {
       misses += !MakeAGuess(guess);
     }
@@ -48,6 +48,12 @@ int main() {
       std::cout << "You win!" << std::endl;
       break;
     }
+    
+    //see already guessed
+    std::cout << "Guesses: ";
+    PrintSet(guesses);
+
+
   }
 
 

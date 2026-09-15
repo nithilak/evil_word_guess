@@ -10,6 +10,7 @@ void DictionaryToMap(const std::string& name);
 void ChooseRandomWord();
 void GetAllowedWords(); //all numbers from 0 to 178690
 void PrintMap(const std::map<int, std::string>& dictionary_map);
+void PrintSet(const std::set<char>& guesses);
 
 int getIntegerInput(const std::string& prompt);
 

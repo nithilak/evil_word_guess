@@ -30,6 +30,13 @@ void PrintMap(const std::map<int, std::string>& dictionary_map) {
     }
 }
 
+void PrintSet(const std::set<char>& guesses) {
+    for (const char& c : guesses) {
+        std::cout << c << " ";
+    }
+    std::cout << std::endl;
+}
+
 void ChooseRandomWord() {
     // 1. Obtain a random seed from the hardware
     std::random_device rd;
@@ -133,7 +140,7 @@ std::vector<std::set<int>> CheckAllowedWordsAtPosition(const char& letter) {
 
     for (auto index : allowed_words) { //const auto& index : allowed_words
         const std::string& word = kDictionaryMap.at(index);
-        std::cout << word  << " ";
+        // std::cout << word  << " ";
         for (int i = 0; i < word.size() && i < answer_size; i++) {
             if (word.at(i) == letter) {
                 position_sets[i].insert(index);
@@ -142,7 +149,7 @@ std::vector<std::set<int>> CheckAllowedWordsAtPosition(const char& letter) {
             //     std::cout << "no ";
             // }
         }
-        std::cout << std::endl;
+        // std::cout << std::endl;
     }
 
     // for (auto thing : position_sets[4]) {
@@ -310,7 +317,7 @@ void RevealLetterInMostPosition(const char& letter) {
 
     for (int index : allowed_words) {
         std::string word = kDictionaryMap[index];
-        std::cout << "check2 " << word << std::endl;
+        // std::cout << "check2 " << word << std::endl;
         
         std::vector<int> curr(answer_size);
         for (int i = 0; i < answer_size; i++) {
@@ -323,7 +330,7 @@ void RevealLetterInMostPosition(const char& letter) {
         if (it != repeat_letters.end()) {
             std::set<int>& value = it->second;
             value.insert(index);
-            std::cout << "Key exists! size: " << value.size() << std::endl;
+            // std::cout << "Key exists! size: " << value.size() << std::endl;
         } else {
             std::set<int> value;
             value.insert(index);
@@ -361,10 +368,10 @@ void RevealLetterInMostPosition(const char& letter) {
         
         // 4. Generate the random number
         int random_num = distrib(gen);
-        std::cout << "Random number between " << min << " and " << max << ": size " << random_num << "\n";
-    } else {
-        std::cout << "Only one max pattern" << std::endl;
-    }
+        // std::cout << "Random number between " << min << " and " << max << ": size " << random_num << "\n";
+    } // else {
+    //     std::cout << "Only one max pattern" << std::endl;
+    // }
 
     auto iter = possible_sets.begin();
     for (int i = 0; i < random_num; i++) {
