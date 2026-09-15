@@ -8,8 +8,8 @@
 #include <string>
 #include <random>
 
-const std::map<int, std::string> DictionaryToMap(const std::string& name) {
-    std::map<int, std::string> dictionary_map;
+const std::vector<std::string> DictionaryToMap(const std::string& name) {
+    std::vector<std::string> dictionary_map;
     std::ifstream file(name);
 
     if (!file.is_open()) {
@@ -19,11 +19,8 @@ const std::map<int, std::string> DictionaryToMap(const std::string& name) {
 
     std::string word;
     
-    int i = 0;
     while (std::getline(file, word)) {
-        dictionary_map[i] = word;
-        allowed_words.insert(i);
-        i++;
+        dictionary_map.push_back(word);
     }
 
     return dictionary_map;
@@ -35,11 +32,11 @@ void PrintMap(const std::map<int, std::string>& dictionary_map) {
     }
 }
 
-std::set<int> GetAllowedWords(const std::map<int, std::string>& dictionary_map) {
+std::set<int> GetAllowedWords(const std::vector<std::string>& dictionary_map) {
     std::set<int> allowed_words;
-    for (const auto& [index, word] : dictionary_map) {
-        if (word.size() == answer_size) {
-            allowed_words.insert(index);
+    for (int i = 0; i < dictionary_map.size(); i++) {
+        if (dictionary_map[i].size() == answer_size) {
+            allowed_words.insert(i);
         }
     }
     return allowed_words;
@@ -67,7 +64,7 @@ bool MakeAnEvilGuess(const char& letter) {
         }
     }
 
-    if (not_contains_letter.size() > contains_letter.size()) {
+    if (not_contains_letter.size() >= contains_letter.size()) {
         allowed_words = not_contains_letter;
     } else {
         found_letter = true;
