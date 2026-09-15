@@ -3,11 +3,10 @@
 #include <iostream>
 
 int main() {
-  kDictionaryMap = DictionaryToMap(kDictionaryFile);
+  DictionaryToMap(kDictionaryFile);
   std::cout << "Loaded " << kDictionaryMap.size() << " dictionary entries." << std::endl;
-  answer_size = answer.size();
-  reveal_answer = std::string(answer_size, '_');
-  allowed_words = GetAllowedWords(kDictionaryMap);
+  ChooseRandomWord();
+  GetAllowedWords();
   std::cout << "Loaded " << allowed_words.size() << " allowed words." << std::endl;
   
 

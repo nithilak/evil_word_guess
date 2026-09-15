@@ -8,22 +8,19 @@
 #include <string>
 #include <random>
 
-const std::vector<std::string> DictionaryToMap(const std::string& name) {
-    std::vector<std::string> dictionary_map;
+void DictionaryToMap(const std::string& name) {
     std::ifstream file(name);
 
     if (!file.is_open()) {
         std::cerr << "Error: Could not open the file!" << std::endl;
-        return dictionary_map;
+        return;
     }
 
     std::string word;
     
     while (std::getline(file, word)) {
-        dictionary_map.push_back(word);
+        kDictionaryMap.push_back(word);
     }
-
-    return dictionary_map;
 }
 
 void PrintMap(const std::map<int, std::string>& dictionary_map) {
@@ -32,14 +29,32 @@ void PrintMap(const std::map<int, std::string>& dictionary_map) {
     }
 }
 
-std::set<int> GetAllowedWords(const std::vector<std::string>& dictionary_map) {
-    std::set<int> allowed_words;
-    for (int i = 0; i < dictionary_map.size(); i++) {
-        if (dictionary_map[i].size() == answer_size) {
+void ChooseRandomWord() {
+    // 1. Obtain a random seed from the hardware
+    std::random_device rd;
+    
+    // 2. Initialize the standard mersenne_twister_engine with the seed
+    std::mt19937 gen(rd());
+    
+    // 3. Define the range [min, max] - inclusive
+    int min = 0;
+    int max = kDictionaryMap.size() - 1;
+    std::uniform_int_distribution<int> distrib(min, max);
+    
+    // 4. Generate the random number
+    int random_num = distrib(gen);
+
+    answer = kDictionaryMap[random_num];
+    answer_size = answer.size();
+    reveal_answer = std::string(answer_size, '_');
+}
+
+void GetAllowedWords() {
+    for (int i = 0; i < kDictionaryMap.size(); i++) {
+        if (kDictionaryMap[i].size() == answer_size) {
             allowed_words.insert(i);
         }
     }
-    return allowed_words;
 }
 
 bool contains(const std::string& word, const char& letter) {

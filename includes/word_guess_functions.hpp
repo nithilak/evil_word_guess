@@ -6,9 +6,12 @@
 #include <string>
 #include <vector>
 
-const std::vector<std::string> DictionaryToMap(const std::string& name);
-std::set<int> GetAllowedWords(const std::vector<std::string>& dictionary_map); //all numbers from 0 to 178690
+void DictionaryToMap(const std::string& name);
+void ChooseRandomWord();
+void GetAllowedWords(); //all numbers from 0 to 178690
 void PrintMap(const std::map<int, std::string>& dictionary_map);
+
+
 
 //cuts down the allowed words and if forced to, reveals a letter
 bool MakeAnEvilGuess(const char& letter);
