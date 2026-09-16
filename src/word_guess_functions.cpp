@@ -62,7 +62,7 @@ int ChooseRandomNum(int min, int max) {
 void ChooseRandomWord(int num) {
     answer_size = num;
     if (answer_size == 0) {
-        answer_size = ChooseRandomNum(0, kDictionaryMap.size() - 1);
+        answer_size = ChooseRandomNum(kMinWordLength, kMaxWordLength);
     }
 
     // //update allowed words to be of entered word size
