@@ -18,6 +18,8 @@ inline std::string answer = "APPLE"; //make random
 inline std::string reveal_answer;
 inline size_t answer_size;
 inline int letters_revealed = 0;
+// inline std::set<char> guesses;
+
 
 
 

@@ -10,9 +10,20 @@ void DictionaryToMap(const std::string& name);
 void ChooseRandomWord();
 void GetAllowedWords(); //all numbers from 0 to 178690
 void PrintMap(const std::map<int, std::string>& dictionary_map);
+void PrintSet(const std::set<int>& guesses);
 void PrintSet(const std::set<char>& guesses);
 
-int getIntegerInput(const std::string& prompt);
+int ChooseRandomNum(int min, int max);
+
+//based on the current answer_size
+void ChooseRandomWord(int num);
+
+std::string ReturnRandomAllowedWord();
+
+int getIntegerInputMode();
+int getIntegerInputWordSize();
+
+char getGuess(std::set<char>& guesses);
 
 //returns true if a letter is found from the chosen word
 bool MakeAGuess(const char& letter);

@@ -36,8 +36,14 @@ void PrintSet(const std::set<char>& guesses) {
     }
     std::cout << std::endl;
 }
+void PrintSet(const std::set<int>& guesses) {
+    for (const int& c : guesses) {
+        std::cout << c << " ";
+    }
+    std::cout << std::endl;
+}
 
-void ChooseRandomWord() {
+int ChooseRandomNum(int min, int max) {
     // 1. Obtain a random seed from the hardware
     std::random_device rd;
     
@@ -45,16 +51,46 @@ void ChooseRandomWord() {
     std::mt19937 gen(rd());
     
     // 3. Define the range [min, max] - inclusive
-    int min = 0;
-    int max = kDictionaryMap.size() - 1;
+    // int min = 0;
+    // int max = kDictionaryMap.size() - 1;
     std::uniform_int_distribution<int> distrib(min, max);
     
     // 4. Generate the random number
-    int random_num = distrib(gen);
+    return distrib(gen);
+}
 
-    answer = kDictionaryMap[random_num];
-    answer_size = answer.size();
+void ChooseRandomWord(int num) {
+    answer_size = num;
+    if (answer_size == 0) {
+        answer_size = ChooseRandomNum(0, kDictionaryMap.size() - 1);
+    }
+
+    // //update allowed words to be of entered word size
+    // std::set<int> new_allowed_words;
+    // for (int index : allowed_words) {
+    //     std::cout << "testing: " << index << std::endl;
+    //     if (kDictionaryMap[index].size() == answer_size) {
+    //         std::cout << index << std::endl;
+    //         new_allowed_words.insert(index);
+    //     }
+    // }
+    // allowed_words = new_allowed_words;
+
+
+    for (int i = 0; i < kDictionaryMap.size(); i++) {
+        if (kDictionaryMap[i].size() == answer_size) {
+            allowed_words.insert(i);
+        }
+    }
+
+    answer = ReturnRandomAllowedWord();
+
     reveal_answer = std::string(answer_size, '_');
+}
+
+std::string ReturnRandomAllowedWord() {
+    auto it = std::next(allowed_words.begin(),  ChooseRandomNum(0, allowed_words.size() - 1));
+    return kDictionaryMap[*it];
 }
 
 void GetAllowedWords() {
@@ -69,12 +105,12 @@ bool contains(const std::string& word, const char& letter) {
     return word.find(letter) != std::string::npos;
 }
 
-int getIntegerInput(const std::string& prompt) {
+int getIntegerInputMode() {
     std::string input;
     int number;
 
     while (true) {
-        std::cout << prompt << std::endl;
+        std::cout << "Choose Mode: Normal 0 Evil 1" << std::endl;
         std::getline(std::cin, input); // Read the full line of input
 
         std::istringstream iss(input);
@@ -89,6 +125,62 @@ int getIntegerInput(const std::string& prompt) {
         }
 
         std::cout << "Invalid input. Please enter 0 or 1.\n";
+    }
+}
+
+int getIntegerInputWordSize() {
+    std::string input;
+    int number;
+    int number2;
+
+    while (true) {
+        std::cout << "Choose Word Size " << kMinWordLength << "-" << kMaxWordLength << "(For Random Enter 0): " << std::endl;
+        std::getline(std::cin, input); // Read the full line of input
+
+        std::istringstream iss(input);
+        char extra;
+
+        // 1. Try to stream into the integer
+        // 2. Try to stream any leftover non-whitespace characters into 'extra'
+        if ((iss >> number)) {
+            if (!(iss >> extra)) {
+                if (number == 0 || ((kMinWordLength <= number) && (number <= kMaxWordLength))) {
+                    return number;
+                }
+            } else if ((iss >> number2) && !(iss >> extra)) {
+                int output = 10*number + number2; // Success! Only an integer was found.
+                if (output == 0 || ((kMinWordLength <= output) && (output <= kMaxWordLength))) {
+                    return output;
+                }
+            }
+        }
+
+        std::cout << "Invalid input.\n";
+    }
+}
+
+char getGuess(std::set<char>& guesses) {
+    char guess;
+    std::string input;
+    while (true) {
+        std::getline(std::cin, input); // Read the full line of input
+        // std::cout << input << std::endl;
+        if (input.length() == 1) {
+            guess = input.at(0);
+            // std::cout << guess << std::endl;
+            if ( (guess < 65 || guess > 90)) {
+                std::cout << "Please enter an uppercase letter." << std::endl;
+                continue;
+            }
+            if (guesses.contains(guess)) {
+                std::cout << "Already guessed." << std::endl;
+                continue;
+            }
+            guesses.insert(guess);
+            return guess;
+        } else {
+            std::cout << "Please enter an uppercase letter." << std::endl;
+        }
     }
 }
 
@@ -353,30 +445,12 @@ void RevealLetterInMostPosition(const char& letter) {
         }
     }
 
-    int random_num = 0;
-    if (possible_sets.size() > 1) {
-        // 1. Obtain a random seed from the hardware
-        std::random_device rd;
-        
-        // 2. Initialize the standard mersenne_twister_engine with the seed
-        std::mt19937 gen(rd());
-        
-        // 3. Define the range [min, max] - inclusive
-        int min = 0;
-        int max = possible_sets.size() - 1;
-        std::uniform_int_distribution<int> distrib(min, max);
-        
-        // 4. Generate the random number
-        int random_num = distrib(gen);
-        // std::cout << "Random number between " << min << " and " << max << ": size " << random_num << "\n";
-    } // else {
-    //     std::cout << "Only one max pattern" << std::endl;
-    // }
 
     auto iter = possible_sets.begin();
-    for (int i = 0; i < random_num; i++) {
-        iter++;
-    }
+    // for (int i = 0; i < ChooseRandomNum(0, possible_sets.size() - 1); i++) {
+    //     iter++;
+    // }
+    iter = std::next(iter, ChooseRandomNum(0, possible_sets.size() - 1));
 
     allowed_words = iter->second;
     

@@ -1,18 +1,21 @@
 #include "word_guess_constants.hpp"
 #include "word_guess_functions.hpp"
 #include <iostream>
+#include <fstream>
 
 int main() {
   DictionaryToMap(kDictionaryFile);
   std::cout << "Loaded " << kDictionaryMap.size() << " dictionary entries." << std::endl;
-  ChooseRandomWord();
+
+  int mode = getIntegerInputMode();
+  std::cout << std::endl;
+  
+  ChooseRandomWord(getIntegerInputWordSize());
   GetAllowedWords();
   std::cout << "Loaded " << allowed_words.size() << " allowed words." << std::endl;
 
-  int mode = getIntegerInput("Choose Mode: Normal 0 Evil 1");
-  
-
   std::cout << reveal_answer << std::endl;
+  std::cout << "Guesses remaining: " << kMaxMisses << std::endl;
 
   int misses = 0;
   char guess;
@@ -20,7 +23,7 @@ int main() {
   std::cout << "Make a guess: ";
   while (misses < kMaxMisses) {
     std::cin >> guess;
-    if (guess < 65 || guess > 90) {
+    if ( (guess < 65 || guess > 90)) {
       std::cout << "Please enter an uppercase letter." << std::endl;
       continue;
     }
@@ -28,6 +31,7 @@ int main() {
       std::cout << "Already guessed." << std::endl;
       continue;
     }
+
     guesses.insert(guess);
 
     if (mode) { //mode == 1
@@ -46,15 +50,24 @@ int main() {
     std::cout << reveal_answer << std::endl;
     if (letters_revealed == answer_size) {
       std::cout << "You win!" << std::endl;
-      break;
+      return 0;
     }
     
     //see already guessed
     std::cout << "Guesses: ";
     PrintSet(guesses);
 
+    std::cout << "Guesses remaining: " << kMaxMisses - misses << std::endl;
 
+  } 
+  std::cout << "You lose!" << std::endl;
+  std::cout << "The word was: ";
+  if (mode == 0) {
+    std::cout << answer;
+  } else if (mode == 1) {
+    std::cout << ReturnRandomAllowedWord();
   }
+  std::cout << std::endl;
 
 
   return 0;
