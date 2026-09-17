@@ -38,14 +38,28 @@ int main() {
     if (guess_queue.empty()) {
       std::string input;
       std::getline(std::cin, input); // Read the full line of input
-      // Push each character into the queue
-      for (char ch : input) {
-          guess_queue.push(ch);
-      }
-    }
-    guess = guess_queue.front();
-    guess_queue.pop();
 
+      if (input.empty()) {
+        std::cout << "Please enter an uppercase letter." << std::endl;
+        continue;
+      }
+
+      if (input.size() == 1) {
+        guess = input.at(0);
+      } else {
+        // Push each character into the queue
+        for (char ch : input) {
+            guess_queue.push(ch);
+        }
+        //continue;
+        guess = guess_queue.front();
+        guess_queue.pop();
+      }
+
+    } else {
+      guess = guess_queue.front();
+      guess_queue.pop();
+    }
 
     if ( (guess < 65 || guess > 90)) {
       std::cout << "Please enter an uppercase letter." << std::endl;
