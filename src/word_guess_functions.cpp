@@ -10,8 +10,8 @@
 #include <sstream>
 // #include <stdexcept>
 
-void DictionaryToMap(const std::string& name) {
-    std::ifstream file(name);
+void DictionaryToMap(const std::string& filename) {
+    std::ifstream file(filename);
 
     if (!file.is_open()) {
         std::cerr << "Error: Could not open the file!" << std::endl;
@@ -60,6 +60,14 @@ int ChooseRandomNum(int min, int max) {
     return distrib(gen);
 }
 
+void GetAllowedWords() {
+    for (int i = 0; i < kDictionaryMap.size(); i++) {
+        if (kDictionaryMap[i].size() == answer_size) {
+            allowed_words.insert(i);
+        }
+    }
+}
+
 void ChooseRandomWord(int num) {
     // answer_size = num;
     // if (answer_size == 0) {
@@ -78,12 +86,7 @@ void ChooseRandomWord(int num) {
     // allowed_words = new_allowed_words;
 
 
-    for (int i = 0; i < kDictionaryMap.size(); i++) {
-        if (kDictionaryMap[i].size() == answer_size) {
-            allowed_words.insert(i);
-        }
-    }
-
+    GetAllowedWords();
     answer = ReturnRandomAllowedWord();
 
     // reveal_answer = std::string(answer_size, '_');
@@ -102,13 +105,6 @@ std::string ReturnRandomAllowedWord() {
     return kDictionaryMap[*it];
 }
 
-void GetAllowedWords() {
-    for (int i = 0; i < kDictionaryMap.size(); i++) {
-        if (kDictionaryMap[i].size() == answer_size) {
-            allowed_words.insert(i);
-        }
-    }
-}
 
 bool contains(const std::string& word, const char& letter) {
     return word.find(letter) != std::string::npos;

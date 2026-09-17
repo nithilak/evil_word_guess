@@ -15,18 +15,19 @@ int main() {
   if (answer_size == 0) {
     answer_size = ChooseRandomNum(kMinWordLength, kMaxWordLength);
   }
-  for (int i = 0; i < answer_size - 1; i++) {
-        reveal_answer.push_back('_');
-        reveal_answer.push_back(' ');
-    }
-    reveal_answer.push_back('_');
-  if (mode == 0) {
-    ChooseRandomWord(answer_size);
-  }
-  
 
+  for (int i = 0; i < answer_size - 1; i++) {
+    reveal_answer.push_back('_');
+    reveal_answer.push_back(' ');
+  }
+  reveal_answer.push_back('_');
+  
   GetAllowedWords();
   std::cout << "Loaded " << allowed_words.size() << " allowed words." << std::endl;
+
+  if (mode == 0) {
+    answer = ReturnRandomAllowedWord();
+  }
 
   std::cout << reveal_answer << std::endl;
   std::cout << "Guesses remaining: " << kMaxMisses << std::endl;
