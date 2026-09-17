@@ -31,6 +31,7 @@ bool MakeAGuess(const char& letter);
 //cuts down the allowed words and if forced to, reveals a letter
 bool MakeAnEvilGuess(const char& letter);
 bool MakeAnEasyGuess(const char& letter);
+bool MakeAnEasyIncludeGuess(const char& letter);
 
 bool contains(const std::string& word, const char& letter);
 

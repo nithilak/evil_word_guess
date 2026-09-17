@@ -114,7 +114,7 @@ int getIntegerInputMode() {
     int number;
 
     while (true) {
-        std::cout << "Choose Mode: Normal 0 Evil 1 Easy 2" << std::endl;
+        std::cout << "Choose Mode: Normal 0, Evil 1, Easy 2, Easy(include ver.) 3" << std::endl;
         std::getline(std::cin, input); // Read the full line of input
 
         std::istringstream iss(input);
@@ -123,7 +123,7 @@ int getIntegerInputMode() {
         // 1. Try to stream into the integer
         // 2. Try to stream any leftover non-whitespace characters into 'extra'
         if ((iss >> number) && !(iss >> extra)) {
-            if (number == 0 || number == 1 || number == 2) {
+            if (number == 0 || number == 1 || number == 2 || number == 3) {
                 return number; // Success! Only an integer was found.
             }
         }
@@ -258,6 +258,38 @@ bool MakeAnEasyGuess(const char& letter) {
         found_letter = true;
         allowed_words = contains_letter;
         RevealLetterInLeastPosition(letter);
+    } else {
+        allowed_words = not_contains_letter;
+    }
+
+    return found_letter;
+}
+
+bool MakeAnEasyIncludeGuess(const char& letter) {
+    bool found_letter = false;
+    std::set<int> contains_letter;
+    std::set<int> not_contains_letter;
+
+    for (const auto& index : allowed_words) {
+        const std::string& word = kDictionaryMap.at(index);
+        // std::cout << "Checking word: " << word << std::endl;
+        // std::cout << "Does it contain '" << letter << "'? " << (contains(word, letter) ? "Yes" : "No") << std::endl;
+        if (contains(word, letter)) {
+            contains_letter.insert(index);
+        } else {
+            not_contains_letter.insert(index);
+
+        }
+    }
+
+    // PrintSet(contains_letter);
+    // std::cout << "next" << std::endl;
+    // PrintSet(not_contains_letter);
+
+    if (!contains_letter.empty()) {
+        found_letter = true;
+        allowed_words = contains_letter;
+        RevealLetterInMostPosition(letter);
     } else {
         allowed_words = not_contains_letter;
     }

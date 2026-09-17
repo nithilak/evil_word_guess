@@ -68,6 +68,8 @@ int main() {
         misses += !MakeAnEvilGuess(guess);
       } else if (mode == 2) {
         misses += !MakeAnEasyGuess(guess);
+      } else if (mode == 3) {
+        misses += !MakeAnEasyIncludeGuess(guess);
       }
       //int words_left = allowed_words.size();
       std::cout << "Have " << allowed_words.size() << " allowed words." << std::endl;
