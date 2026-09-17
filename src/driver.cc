@@ -10,7 +10,16 @@ int main() {
   int mode = getIntegerInputMode();
   std::cout << std::endl;
   
-  ChooseRandomWord(getIntegerInputWordSize());
+  answer_size = getIntegerInputWordSize();;
+  if (answer_size == 0) {
+      answer_size = ChooseRandomNum(kMinWordLength, kMaxWordLength);
+  }
+  reveal_answer = std::string(answer_size, '_');
+  if (mode == 0) {
+    ChooseRandomWord(answer_size);
+  }
+  
+
   GetAllowedWords();
   std::cout << "Loaded " << allowed_words.size() << " allowed words." << std::endl;
 
@@ -34,17 +43,29 @@ int main() {
 
     guesses.insert(guess);
 
-    if (mode) { //mode == 1
-      misses += !MakeAnEvilGuess(guess);
-      int words_left = allowed_words.size();
+    if (mode == 0) {
+      misses += !MakeAGuess(guess);
+    } else if ((allowed_words.size() == 1)) {
+      misses += !MakeAGuess(guess);
+      std::cout << "Have " << allowed_words.size() << " allowed words." << std::endl; // 1 allowed word
+    } else {
+      if (mode == 1) { //mode == 1
+        misses += !MakeAnEvilGuess(guess);
+      } else if (mode == 2) {
+        misses += !MakeAnEasyGuess(guess);
+      }
+      //int words_left = allowed_words.size();
       std::cout << "Have " << allowed_words.size() << " allowed words." << std::endl;
       // if (words_left < 40) {
       //   for (int index : allowed_words) {
       //     std::cout << kDictionaryMap[index] << std::endl;
       //   }
       // }
-    } else {
-      misses += !MakeAGuess(guess);
+      if (allowed_words.size() == 1) {
+        auto iter = allowed_words.begin();
+        answer = kDictionaryMap[*iter];
+        mode = 0;
+      }
     }
 
     std::cout << reveal_answer << std::endl;

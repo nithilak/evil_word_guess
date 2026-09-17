@@ -30,10 +30,13 @@ bool MakeAGuess(const char& letter);
 
 //cuts down the allowed words and if forced to, reveals a letter
 bool MakeAnEvilGuess(const char& letter);
+bool MakeAnEasyGuess(const char& letter);
 
 bool contains(const std::string& word, const char& letter);
 
 std::vector<std::set<int>> CheckAllowedWordsAtPosition(const char& letter);
+
+std::map<std::vector<int>, std::set<int>> GatherPatternList(const char& letter);
 
 void RevealLetterInLeastPosition(const char& letter);
 void RevealLetterInMostPosition(const char& letter);
