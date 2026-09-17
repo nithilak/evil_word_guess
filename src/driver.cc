@@ -2,6 +2,7 @@
 #include "word_guess_functions.hpp"
 #include <iostream>
 #include <fstream>
+#include <queue>
 
 int main() {
   DictionaryToMap(kDictionaryFile);
@@ -29,9 +30,23 @@ int main() {
   int misses = 0;
   char guess;
   std::set<char> guesses;
+  std::queue<char> guess_queue; 
   std::cout << "Make a guess: ";
   while (misses < kMaxMisses) {
-    std::cin >> guess;
+    //std::cin >> guess;
+
+    if (guess_queue.empty()) {
+      std::string input;
+      std::getline(std::cin, input); // Read the full line of input
+      // Push each character into the queue
+      for (char ch : input) {
+          guess_queue.push(ch);
+      }
+    }
+    guess = guess_queue.front();
+    guess_queue.pop();
+
+
     if ( (guess < 65 || guess > 90)) {
       std::cout << "Please enter an uppercase letter." << std::endl;
       continue;
