@@ -253,8 +253,7 @@ bool MakeAnEasyGuess(const char& letter) {
 
     if (contains_letter.empty()) {
         allowed_words = not_contains_letter;
-    } else 
-    if ((not_contains_letter.size() >= contains_letter.size())) {
+    } else if ((not_contains_letter.size() >= contains_letter.size())) {
         found_letter = true;
         allowed_words = contains_letter;
         RevealLetterInLeastPosition(letter);
