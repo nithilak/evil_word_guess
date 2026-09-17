@@ -86,7 +86,12 @@ void ChooseRandomWord(int num) {
 
     answer = ReturnRandomAllowedWord();
 
-    reveal_answer = std::string(answer_size, '_');
+    // reveal_answer = std::string(answer_size, '_');
+    // for (int i = 0; i < answer_size - 1; i++) {
+    //     reveal_answer.push_back('_');
+    //     reveal_answer.push_back(' ');
+    // }
+    // reveal_answer.push_back('_');
 }
 
 std::string ReturnRandomAllowedWord() {
@@ -192,7 +197,7 @@ bool MakeAGuess(const char& letter) {
     bool found_letter = false;
     for (int i = 0; i < answer_size; i++) {
         if (answer[i] == letter) {
-            reveal_answer[i] = letter;
+            reveal_answer[i*2] = letter;
             found_letter = true;
             letters_revealed++;
         }
@@ -380,7 +385,7 @@ void RevealLetterInLeastPosition(const char& letter) {
     std::vector<int> chosen_pattern = iter->first;
     for (int i = 0; i < answer_size; i++) {
         if (chosen_pattern[i] == 1) {
-            reveal_answer[i] = letter;
+            reveal_answer[i*2] = letter;
             letters_revealed++;
         }
     }
@@ -417,7 +422,7 @@ void RevealLetterInMostPosition(const char& letter) {
     std::vector<int> chosen_pattern = iter->first;
     for (int i = 0; i < answer_size; i++) {
         if (chosen_pattern[i] == 1) {
-            reveal_answer[i] = letter;
+            reveal_answer[i*2] = letter;
             letters_revealed++;
         }
     }

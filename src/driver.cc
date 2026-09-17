@@ -13,9 +13,13 @@ int main() {
   
   answer_size = getIntegerInputWordSize();;
   if (answer_size == 0) {
-      answer_size = ChooseRandomNum(kMinWordLength, kMaxWordLength);
+    answer_size = ChooseRandomNum(kMinWordLength, kMaxWordLength);
   }
-  reveal_answer = std::string(answer_size, '_');
+  for (int i = 0; i < answer_size - 1; i++) {
+        reveal_answer.push_back('_');
+        reveal_answer.push_back(' ');
+    }
+    reveal_answer.push_back('_');
   if (mode == 0) {
     ChooseRandomWord(answer_size);
   }
