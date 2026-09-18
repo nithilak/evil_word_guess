@@ -36,7 +36,7 @@ int main() {
   reveal_answer.push_back('_');
 
   std::cout << reveal_answer << std::endl;
-  std::cout << "Guesses remaining: " << kMaxMisses << std::endl;
+  std::cout << "Guesses remaining: " << kMaxMisses << " Enter 0 to quit." << std::endl;
 
   int misses = 0;
   char guess;
@@ -72,6 +72,9 @@ int main() {
     }
 
     if (!std::isalpha(guess)) {
+      if (guess == '0') {
+        break;
+      }
       std::cout << "Please enter a letter." << std::endl;
       continue;
     }
@@ -119,14 +122,14 @@ int main() {
     std::cout << "Guesses: ";
     PrintSet(guesses);
 
-    std::cout << "Guesses remaining: " << kMaxMisses - misses << std::endl;
+    std::cout << "Guesses remaining: " << kMaxMisses - misses  << " Enter 0 to quit." << std::endl;
 
   } 
   std::cout << "You lose!" << std::endl;
   std::cout << "The word was: ";
-  if (mode == 0) {
+  if (mode == 0 || mode == 4) {
     std::cout << answer;
-  } else if (mode == 1) {
+  } else { //if ((mode == 1) || (mode == 2) (mode == 3))
     std::cout << ReturnRandomAllowedWord();
   }
   std::cout << std::endl;
