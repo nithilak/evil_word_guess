@@ -53,11 +53,11 @@ int main() {
       std::getline(std::cin, guess_queue); // Read the full line of input
 
       if (guess_queue.empty()) {
-        std::cout << "Please enter an uppercase letter." << std::endl;
+        std::cout << "Please enter a letter." << std::endl;
         continue;
       }
 
-      guess = guess_queue.at(0);
+      guess = static_cast<char>(std::toupper(guess_queue.at(0)));
       if (guess_queue.size() > 1) {
         process_queue = true;
         queue_int = 1;
@@ -65,14 +65,14 @@ int main() {
       }
 
     } else {
-      guess = guess_queue.at(queue_int);
+      guess = static_cast<char>(std::toupper(guess_queue.at(queue_int)));
       if (++queue_int >= queue_size) { //could be ==
         process_queue = false;
       }
     }
 
-    if ( (guess < 65 || guess > 90)) {
-      std::cout << "Please enter an uppercase letter." << std::endl;
+    if (!std::isalpha(guess)) {
+      std::cout << "Please enter a letter." << std::endl;
       continue;
     }
     if (guesses.contains(guess)) {
