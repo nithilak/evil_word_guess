@@ -8,6 +8,7 @@
 #include <string>
 #include <random>
 #include <sstream>
+#include <cctype>
 // #include <stdexcept>
 
 void DictionaryToMap(const std::string& filename) {
@@ -87,7 +88,8 @@ void ChooseRandomWord(int num) {
 
 
     GetAllowedWords();
-    answer = ReturnRandomAllowedWord();
+    //answer = ReturnRandomAllowedWord
+    ChooseRandomAllowedWord();
 
     // reveal_answer = std::string(answer_size, '_');
     // for (int i = 0; i < answer_size - 1; i++) {
@@ -105,6 +107,14 @@ std::string ReturnRandomAllowedWord() {
     return kDictionaryMap[*it];
 }
 
+void ChooseRandomAllowedWord() {
+    // if (allowed_words.empty()) {
+    //     throw std::runtime_error("allowed_words is");
+    // }
+    auto it = std::next(allowed_words.begin(),  ChooseRandomNum(0, allowed_words.size() - 1));
+    answer = kDictionaryMap[*it];
+}
+
 
 bool contains(const std::string& word, const char& letter) {
     return word.find(letter) != std::string::npos;
@@ -115,7 +125,7 @@ int getIntegerInputMode() {
     int number;
 
     while (true) {
-        std::cout << "Choose Mode: Normal 0, Evil 1, Easy 2, Easy(include ver.) 3" << std::endl;
+        std::cout << "Choose Mode: Normal 0, Evil 1, Easy 2, Easy(include ver.) 3 Custom 4" << std::endl;
         std::getline(std::cin, input); // Read the full line of input
 
         std::istringstream iss(input);
@@ -124,12 +134,12 @@ int getIntegerInputMode() {
         // 1. Try to stream into the integer
         // 2. Try to stream any leftover non-whitespace characters into 'extra'
         if ((iss >> number) && !(iss >> extra)) {
-            if (number == 0 || number == 1 || number == 2 || number == 3) {
+            if (number == 0 || number == 1 || number == 2 || number == 3 || number == 4) {
                 return number; // Success! Only an integer was found.
             }
         }
 
-        std::cout << "Invalid input. Please enter 0 or 1 or 2.\n";
+        std::cout << "Invalid input. Please enter 0 or 1 or 2 or 3 or 4.\n";
     }
 }
 
@@ -185,6 +195,35 @@ char getGuess(std::set<char>& guesses) {
             return guess;
         } else {
             std::cout << "Please enter an uppercase letter." << std::endl;
+        }
+    }
+}
+
+std::string getCustomWord() {
+    std::string input;
+
+    while (true) {
+        std::cout << "Enter word to guess: " << std::endl;
+        std::getline(std::cin, input);
+
+        bool valid = true;
+
+        if (input.empty()) {
+            std::cout << "Invalid input." << std::endl;
+            continue;
+        }
+
+        for (char &c : input) {
+            if (!std::isalpha(static_cast<unsigned char>(c))) {
+                std::cout << "Invalid input." << std::endl;
+                valid = false;
+                break;
+            }
+            c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+        }
+
+        if (valid) {
+            return input;
         }
     }
 }

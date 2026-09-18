@@ -10,10 +10,23 @@ int main() {
 
   int mode = getIntegerInputMode();
   std::cout << std::endl;
-  
-  answer_size = getIntegerInputWordSize();;
-  if (answer_size == 0) {
-    answer_size = ChooseRandomNum(kMinWordLength, kMaxWordLength);
+  if (mode != 4) {
+    answer_size = getIntegerInputWordSize();
+    if (answer_size == 0) {
+      answer_size = ChooseRandomNum(kMinWordLength, kMaxWordLength);
+    }
+
+    GetAllowedWords();
+    std::cout << "Loaded " << allowed_words.size() << " allowed words." << std::endl;
+
+    if (mode == 0) {
+      ChooseRandomAllowedWord();
+    }
+  } else {
+    answer = getCustomWord();
+    answer_size = answer.size();
+    mode = 0;
+    std::cout << std::string('\n', 12) << std::endl;
   }
 
   for (int i = 0; i < answer_size - 1; i++) {
@@ -21,13 +34,6 @@ int main() {
     reveal_answer.push_back(' ');
   }
   reveal_answer.push_back('_');
-  
-  GetAllowedWords();
-  std::cout << "Loaded " << allowed_words.size() << " allowed words." << std::endl;
-
-  if (mode == 0) {
-    answer = ReturnRandomAllowedWord();
-  }
 
   std::cout << reveal_answer << std::endl;
   std::cout << "Guesses remaining: " << kMaxMisses << std::endl;

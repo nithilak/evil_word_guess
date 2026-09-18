@@ -23,7 +23,10 @@ int ChooseRandomNum(int min, int max);
 //deprecated. based on the current answer_size, runs GetAllowedWords() and then runs ReturnRandomAllowedWord()
 void ChooseRandomWord(int num);
 
+//returns a random word from id in allowed_words
 std::string ReturnRandomAllowedWord();
+//makes the answer a random word from id in allowed_words
+void ChooseRandomAllowedWord();
 
 //prompts user to enter mode
 int getIntegerInputMode();
@@ -32,6 +35,9 @@ int getIntegerInputWordSize();
 
 //unused function meant to prompt the user to make a valid guess
 char getGuess(std::set<char>& guesses);
+
+//prompts user for custom word and then sets the word as answer and updates answer_size
+std::string getCustomWord();
 
 //returns true if a letter is found from the chosen word
 bool MakeAGuess(const char& letter);
