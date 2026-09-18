@@ -41,35 +41,34 @@ int main() {
   int misses = 0;
   char guess;
   std::set<char> guesses;
-  std::queue<char> guess_queue; 
+  bool process_queue = false;
+  int queue_int = 0;
+  std::string guess_queue; 
+  int queue_size = 0;
   std::cout << "Make a guess: ";
   while (misses < kMaxMisses) {
     //std::cin >> guess;
 
-    if (guess_queue.empty()) {
-      std::string input;
-      std::getline(std::cin, input); // Read the full line of input
+    if (!process_queue) {
+      std::getline(std::cin, guess_queue); // Read the full line of input
 
-      if (input.empty()) {
+      if (guess_queue.empty()) {
         std::cout << "Please enter an uppercase letter." << std::endl;
         continue;
       }
 
-      if (input.size() == 1) {
-        guess = input.at(0);
-      } else {
-        // Push each character into the queue
-        for (char ch : input) {
-            guess_queue.push(ch);
-        }
-        //continue;
-        guess = guess_queue.front();
-        guess_queue.pop();
+      guess = guess_queue.at(0);
+      if (guess_queue.size() > 1) {
+        process_queue = true;
+        queue_int = 1;
+        queue_size = guess_queue.size();
       }
 
     } else {
-      guess = guess_queue.front();
-      guess_queue.pop();
+      guess = guess_queue.at(queue_int);
+      if (++queue_int >= queue_size) { //could be ==
+        process_queue = false;
+      }
     }
 
     if ( (guess < 65 || guess > 90)) {
